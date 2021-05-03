@@ -22,3 +22,4 @@ This projects can run without any additional setup.
 m-ahmadian
 
 ## License
+**Virtual Tourist** is available under the [MIT License](https://github.com/m-ahmadian/Virtual-Tourists/blob/master/LICENSE).

@@ -29,20 +29,24 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
     
     // MARK: - Actions
     
-    @IBAction func addPin(_ sender: UILongPressGestureRecognizer) {
+    @IBAction func mapTapped(_ sender: UILongPressGestureRecognizer) {
         
         if sender.state == .ended {
-            let location = sender.location(in: self.mapView)
-            let locationCoordinate = self.mapView.convert(location, toCoordinateFrom: self.mapView)
-            
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = locationCoordinate
-            annotation.title = "New Title"
-            annotation.subtitle = "New Detail"
-            
-            annotations.append(annotation)
-            self.mapView.addAnnotations(annotations)
+            addPin(sender)
         }
+    }
+    
+    fileprivate func addPin(_ sender: UILongPressGestureRecognizer) {
+        let location = sender.location(in: self.mapView)
+        let locationCoordinate = self.mapView.convert(location, toCoordinateFrom: self.mapView)
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = locationCoordinate
+        annotation.title = "New Title"
+        annotation.subtitle = "New Detail"
+        
+        annotations.append(annotation)
+        self.mapView.addAnnotations(annotations)
     }
     
 }
@@ -52,9 +56,6 @@ extension TravelLocationsMapViewController {
     
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         center = mapView.centerCoordinate
-        
-//        let currentCenter = mapView.centerCoordinate
-//        LocationSt
     }
     
     

@@ -44,7 +44,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="2nM-Zv-cAJ">
                     <connections>
-                        <action selector="addPin:" destination="BYZ-38-t0r" id="kUA-zI-CW9"/>
+                        <action selector="mapTapped:" destination="BYZ-38-t0r" id="kUA-zI-CW9"/>
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>

@@ -10,17 +10,20 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class TravelLocationsMapViewController: UIViewController {
+class TravelLocationsMapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     // MARK: - Outlet
     @IBOutlet weak var mapView: MKMapView!
     
     // MARK: - Properties
     var annotations = [MKPointAnnotation]()
+    var center: CLLocationCoordinate2D = CLLocationCoordinate2D()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        mapView.delegate = self
+        // mapView.setCenter(center, animated: true)
     }
 
     
@@ -28,16 +31,36 @@ class TravelLocationsMapViewController: UIViewController {
     
     @IBAction func addPin(_ sender: UILongPressGestureRecognizer) {
         
-        let location = sender.location(in: self.mapView)
-        let locationCoordinate = self.mapView.convert(location, toCoordinateFrom: self.mapView)
+        if sender.state == .ended {
+            let location = sender.location(in: self.mapView)
+            let locationCoordinate = self.mapView.convert(location, toCoordinateFrom: self.mapView)
+            
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = locationCoordinate
+            annotation.title = "New Title"
+            annotation.subtitle = "New Detail"
+            
+            annotations.append(annotation)
+            self.mapView.addAnnotations(annotations)
+        }
+    }
+    
+}
+
+
+extension TravelLocationsMapViewController {
+    
+    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        center = mapView.centerCoordinate
         
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = locationCoordinate
-        annotation.title = "New Title"
-        annotation.subtitle = "New Detail"
+//        let currentCenter = mapView.centerCoordinate
+//        LocationSt
+    }
+    
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
-        annotations.append(annotation)
-        self.mapView.addAnnotations(annotations)
+        performSegue(withIdentifier: "showTravelVC", sender: self)
     }
     
 }

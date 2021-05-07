@@ -115,5 +115,15 @@ extension TravelLocationsMapViewController {
         performSegue(withIdentifier: "showTravelVC", sender: self)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showTravelVC" {
+//            let photoAlbumVC = segue.destination as! PhotoAlbumViewController
+//            photoAlbumVC.navigationItem.leftBarButtonItem?.title = "OK"
+            
+            let backButton = UIBarButtonItem(title: "OK", style: .plain, target: self, action: nil)
+            navigationItem.backBarButtonItem = backButton
+        }
+    }
+    
 }
 

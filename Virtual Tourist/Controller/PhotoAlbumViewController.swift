@@ -9,6 +9,10 @@
 import UIKit
 
 class PhotoAlbumViewController: UIViewController {
+    
+    // MARK: Properties
+    var latitude: Double!
+    var longitude: Double!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +22,7 @@ class PhotoAlbumViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        print("Latitude: \(String(describing: latitude)), Longitude: \(String(describing: longitude))")
     }
     
 

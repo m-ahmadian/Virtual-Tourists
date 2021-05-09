@@ -18,6 +18,7 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
     // MARK: - Properties
     var annotations = [MKPointAnnotation]()
     var centerCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
+    var selectedPin: MKAnnotationView = MKAnnotationView()
     var latitude: Double = 0.0
     var longitude: Double = 0.0
     var latitudeDelta: Double = 0.0
@@ -111,13 +112,15 @@ extension TravelLocationsMapViewController {
     
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        
+        selectedPin = view
         performSegue(withIdentifier: "showTravelVC", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showTravelVC" {
-//            let photoAlbumVC = segue.destination as! PhotoAlbumViewController
+            let photoAlbumVC = segue.destination as! PhotoAlbumViewController
+            photoAlbumVC.latitude = selectedPin.annotation?.coordinate.latitude
+            photoAlbumVC.longitude = selectedPin.annotation?.coordinate.longitude
 //            photoAlbumVC.navigationItem.leftBarButtonItem?.title = "OK"
             
             let backButton = UIBarButtonItem(title: "OK", style: .plain, target: self, action: nil)

@@ -7,13 +7,22 @@
 //
 
 import UIKit
+import MapKit
 
-class PhotoAlbumViewController: UIViewController {
+class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     
-    // MARK: Properties
+    // MARK: - Outlets
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    
+    // MARK: - Properties
     var latitude: Double!
     var longitude: Double!
+    var zoomLevel: MKCoordinateSpan!
 
+    
+    // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,8 +32,18 @@ class PhotoAlbumViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("Latitude: \(String(describing: latitude)), Longitude: \(String(describing: longitude))")
+        
+        loadMapViewLocation()
     }
     
+    
+    // MARK: - Methods
+    func loadMapViewLocation() {
+        
+        let mapCenter = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let currentRegion = MKCoordinateRegion(center: mapCenter, span: zoomLevel)
+        mapView.setRegion(currentRegion, animated: true)
+    }
 
     /*
     // MARK: - Navigation

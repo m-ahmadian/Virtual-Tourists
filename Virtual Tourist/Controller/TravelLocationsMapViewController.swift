@@ -121,7 +121,7 @@ extension TravelLocationsMapViewController {
             let photoAlbumVC = segue.destination as! PhotoAlbumViewController
             photoAlbumVC.latitude = selectedPin.annotation?.coordinate.latitude
             photoAlbumVC.longitude = selectedPin.annotation?.coordinate.longitude
-//            photoAlbumVC.navigationItem.leftBarButtonItem?.title = "OK"
+            photoAlbumVC.zoomLevel = self.zoomLevel
             
             let backButton = UIBarButtonItem(title: "OK", style: .plain, target: self, action: nil)
             navigationItem.backBarButtonItem = backButton

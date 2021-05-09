@@ -96,6 +96,10 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Lbf-Q7-Y4N"/>
                     </view>
+                    <connections>
+                        <outlet property="collectionView" destination="hpW-Ok-Wjn" id="fRq-YY-itF"/>
+                        <outlet property="mapView" destination="nWT-LE-Iof" id="2f3-TG-XIJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SXD-DD-yTA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

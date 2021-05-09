@@ -112,6 +112,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="hpW-Ok-Wjn" id="fRq-YY-itF"/>
+                        <outlet property="flowLayout" destination="uNH-GN-PK0" id="yzL-bO-4eP"/>
                         <outlet property="mapView" destination="nWT-LE-Iof" id="2f3-TG-XIJ"/>
                     </connections>
                 </viewController>

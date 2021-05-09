@@ -18,6 +18,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     // MARK: - Outlets
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
     
     // MARK: - Properties
@@ -33,6 +34,14 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         // Do any additional setup after loading the view.
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        let space: CGFloat = 3.0
+        let dimensionWidth = (view.frame.width - (2 * space)) / 3
+        let dimensionHeight = (view.frame.height - (4 * space)) / 5
+        
+        flowLayout.minimumLineSpacing = space
+        flowLayout.minimumInteritemSpacing = space
+        flowLayout.itemSize = CGSize(width: dimensionWidth, height: dimensionHeight)
     }
     
     override func viewWillAppear(_ animated: Bool) {

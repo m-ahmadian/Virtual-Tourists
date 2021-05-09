@@ -9,6 +9,10 @@
 import UIKit
 import MapKit
 
+class CustomPhotoCell: UICollectionViewCell {
+    @IBOutlet weak var collectionImageView: UIImageView!
+}
+
 class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: - Outlets
@@ -27,6 +31,8 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        collectionView.delegate = self
+        collectionView.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,4 +61,22 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     }
     */
 
+}
+
+
+extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    // MARK: - UICollectionView Delegate & DataSource Methods
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomPhotoCell", for: indexPath) as! CustomPhotoCell
+        
+        return cell
+    }
+    
+    
 }

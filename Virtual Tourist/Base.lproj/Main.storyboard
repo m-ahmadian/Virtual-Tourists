@@ -57,13 +57,49 @@
                     <view key="view" contentMode="scaleToFill" id="v7m-Vd-zoH">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Lnw-94-Noz">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <subviews>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="nWT-LE-Iof">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="204.5"/>
+                                    </mapView>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hpW-Ok-Wjn">
+                                        <rect key="frame" x="0.0" y="212.5" width="414" height="561.5"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="uNH-GN-PK0">
+                                            <size key="itemSize" width="50" height="50"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" id="ldy-zM-XaC">
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </view>
+                                            </collectionViewCell>
+                                        </cells>
+                                    </collectionView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Lbf-Q7-Y4N" firstAttribute="trailing" secondItem="Lnw-94-Noz" secondAttribute="trailing" id="2AX-QX-5VE"/>
+                            <constraint firstItem="Lnw-94-Noz" firstAttribute="leading" secondItem="Lbf-Q7-Y4N" secondAttribute="leading" id="IuD-sV-wQQ"/>
+                            <constraint firstItem="Lnw-94-Noz" firstAttribute="top" secondItem="Lbf-Q7-Y4N" secondAttribute="top" id="UDV-C0-xkc"/>
+                            <constraint firstItem="Lbf-Q7-Y4N" firstAttribute="bottom" secondItem="Lnw-94-Noz" secondAttribute="bottom" id="xPX-47-Xu9"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Lbf-Q7-Y4N"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SXD-DD-yTA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1658" y="134"/>
+            <point key="canvasLocation" x="1657.9710144927537" y="133.92857142857142"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="YeD-2F-JZf">

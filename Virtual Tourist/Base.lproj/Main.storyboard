@@ -38,7 +38,7 @@
                     <navigationItem key="navigationItem" id="ozt-lS-wY3"/>
                     <connections>
                         <outlet property="mapView" destination="HCA-0r-hNg" id="Y4p-VE-IXK"/>
-                        <segue destination="XD3-MJ-6gz" kind="show" identifier="showTravelVC" id="PLp-7a-70X"/>
+                        <segue destination="XD3-MJ-6gz" kind="show" identifier="showTravelVC" id="PQW-gh-Cx1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -58,42 +58,47 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Lnw-94-Noz">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Lnw-94-Noz">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
-                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="nWT-LE-Iof">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="204.5"/>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="nWT-LE-Iof">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="180"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="180" id="mvt-og-81O"/>
+                                        </constraints>
                                     </mapView>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hpW-Ok-Wjn">
-                                        <rect key="frame" x="0.0" y="212.5" width="414" height="561.5"/>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="umV-G6-6b4">
+                                        <rect key="frame" x="0.0" y="188" width="414" height="586"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="uNH-GN-PK0">
-                                            <size key="itemSize" width="116" height="121"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="0fl-ef-Aqh">
+                                            <size key="itemSize" width="50" height="50"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="CustomPhotoCell" id="ldy-zM-XaC" customClass="CustomPhotoCell" customModule="Virtual_Tourist" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="116" height="121"/>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="CustomPhotoCell" id="wkH-Ax-Zee" customClass="CustomPhotoCell" customModule="Virtual_Tourist" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                                    <rect key="frame" x="0.0" y="0.0" width="116" height="121"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CLu-FF-B7a">
-                                                            <rect key="frame" x="0.0" y="0.0" width="116" height="0.0"/>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VirtualTourist_1024" translatesAutoresizingMaskIntoConstraints="NO" id="Ssv-0i-fAE">
+                                                            <rect key="frame" x="0.0" y="0.0" width="50" height="0.0"/>
                                                         </imageView>
                                                     </subviews>
                                                 </view>
                                                 <constraints>
-                                                    <constraint firstItem="CLu-FF-B7a" firstAttribute="leading" secondItem="ldy-zM-XaC" secondAttribute="leading" id="1Yp-ji-UOC"/>
-                                                    <constraint firstAttribute="bottom" secondItem="CLu-FF-B7a" secondAttribute="bottom" id="Cem-tE-Xfe"/>
-                                                    <constraint firstAttribute="trailing" secondItem="CLu-FF-B7a" secondAttribute="trailing" id="d8P-aR-RXx"/>
-                                                    <constraint firstItem="CLu-FF-B7a" firstAttribute="top" secondItem="ldy-zM-XaC" secondAttribute="top" id="d9f-1f-mAt"/>
+                                                    <constraint firstItem="Ssv-0i-fAE" firstAttribute="height" secondItem="wkH-Ax-Zee" secondAttribute="height" id="IZn-Jc-uaW"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Ssv-0i-fAE" secondAttribute="trailing" id="KlX-60-vbv"/>
+                                                    <constraint firstItem="Ssv-0i-fAE" firstAttribute="top" secondItem="wkH-Ax-Zee" secondAttribute="top" id="Zcf-sg-tZV"/>
+                                                    <constraint firstItem="Ssv-0i-fAE" firstAttribute="leading" secondItem="wkH-Ax-Zee" secondAttribute="leading" id="oVh-SV-f5G"/>
+                                                    <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="Ssv-0i-fAE" secondAttribute="bottom" id="pyY-fo-l0q"/>
                                                 </constraints>
+                                                <size key="customSize" width="50" height="50"/>
                                                 <connections>
-                                                    <outlet property="collectionImageView" destination="CLu-FF-B7a" id="cYT-jb-oCw"/>
+                                                    <outlet property="collectionImageView" destination="Ssv-0i-fAE" id="dK9-cK-pms"/>
                                                 </connections>
                                             </collectionViewCell>
                                         </cells>
@@ -103,16 +108,16 @@
                         </subviews>
                         <color key="backgroundColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Lbf-Q7-Y4N" firstAttribute="trailing" secondItem="Lnw-94-Noz" secondAttribute="trailing" id="2AX-QX-5VE"/>
-                            <constraint firstItem="Lnw-94-Noz" firstAttribute="leading" secondItem="Lbf-Q7-Y4N" secondAttribute="leading" id="IuD-sV-wQQ"/>
-                            <constraint firstItem="Lnw-94-Noz" firstAttribute="top" secondItem="Lbf-Q7-Y4N" secondAttribute="top" id="UDV-C0-xkc"/>
-                            <constraint firstItem="Lbf-Q7-Y4N" firstAttribute="bottom" secondItem="Lnw-94-Noz" secondAttribute="bottom" id="xPX-47-Xu9"/>
+                            <constraint firstItem="Lnw-94-Noz" firstAttribute="top" secondItem="Lbf-Q7-Y4N" secondAttribute="top" id="81n-SZ-DfT"/>
+                            <constraint firstItem="Lnw-94-Noz" firstAttribute="trailing" secondItem="Lbf-Q7-Y4N" secondAttribute="trailing" id="HhO-Qx-zpG"/>
+                            <constraint firstItem="Lnw-94-Noz" firstAttribute="bottom" secondItem="Lbf-Q7-Y4N" secondAttribute="bottom" id="Lbt-w2-Qqv"/>
+                            <constraint firstItem="Lnw-94-Noz" firstAttribute="leading" secondItem="Lbf-Q7-Y4N" secondAttribute="leading" id="jvD-yu-mX2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Lbf-Q7-Y4N"/>
                     </view>
                     <connections>
-                        <outlet property="collectionView" destination="hpW-Ok-Wjn" id="fRq-YY-itF"/>
-                        <outlet property="flowLayout" destination="uNH-GN-PK0" id="yzL-bO-4eP"/>
+                        <outlet property="collectionView" destination="umV-G6-6b4" id="uko-vL-Lcu"/>
+                        <outlet property="flowLayout" destination="0fl-ef-Aqh" id="a7p-N9-JwK"/>
                         <outlet property="mapView" destination="nWT-LE-Iof" id="2f3-TG-XIJ"/>
                     </connections>
                 </viewController>
@@ -139,4 +144,7 @@
             <point key="canvasLocation" x="182.60869565217394" y="133.92857142857142"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="VirtualTourist_1024" width="1024" height="1024"/>
+    </resources>
 </document>

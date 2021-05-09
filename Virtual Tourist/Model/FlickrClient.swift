@@ -56,8 +56,8 @@ class FlickrClient {
         }
     }
     
-    class func getImage(flickrImageUrlAddress: String, completion: @escaping (UIImage?, Error?) -> Void) {
-        let url = URL(string: flickrImageUrlAddress)!
+    class func getImage(url: URL, completion: @escaping (UIImage?, Error?) -> Void) {
+        // let url = URL(string: flickrImageUrlAddress)!
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let data = data else {
                 DispatchQueue.main.async {

@@ -19,7 +19,7 @@ class FlickrClient {
         static var accountId = 0
     }
     
-//     https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=c98a058f0a3d0a7121a7eeeee1947421&lat=43.6532&lon=79.3832&per_page=20&page=1&format=json
+//     https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=5ef27c06449c66e2fd8578e931c31ade&lat=43.6532&lon=79.3832&extras=url_m&per_page=20&page=1&format=json
     
     enum Endpoints {
         
@@ -32,7 +32,7 @@ class FlickrClient {
         var stringValue: String {
             switch self {
             case .searchPhotos(let latitude, let longitude):
-                return Endpoints.base + Endpoints.flickrPhotosSearch + Endpoints.apiKeyParam + "&lat=\(latitude)" + "&lon=\(longitude)" + "&per_page=20&page=1&format=json"
+                return Endpoints.base + Endpoints.flickrPhotosSearch + Endpoints.apiKeyParam + "&lat=\(latitude)" + "&lon=\(longitude)" + "&extras=url_m&per_page=20&page=1&format=json&nojsoncallback=1"
             default:
                 print("default")
                 //
@@ -47,8 +47,15 @@ class FlickrClient {
     
     
     class func searchPhotos(latitude: Double, longitude: Double, completion: @escaping ([Photo], Error?) -> Void) {
-        taskForGETRequest(url: Endpoints.searchPhotos(latitude, longitude).url, response: Photos.self) { (response, error) in
+        print(Endpoints.searchPhotos(latitude, longitude).url)
+        
+        var request = URLRequest(url: Endpoints.searchPhotos(latitude, longitude).url)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        taskForGETRequest(url: request, response: Photos.self) { (response, error) in
             if let response = response {
+                print(response.status)
+                print(response.photo)
                 completion(response.photo, nil)
             } else {
                 completion([], error)
@@ -74,7 +81,7 @@ class FlickrClient {
     }
     
     
-    class func taskForGETRequest<ResponseType: Decodable>(url: URL, response: ResponseType.Type, completion: @escaping (ResponseType?, Error?) -> Void) {
+    class func taskForGETRequest<ResponseType: Decodable>(url: URLRequest, response: ResponseType.Type, completion: @escaping (ResponseType?, Error?) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let data = data else {
                 DispatchQueue.main.async {
@@ -84,6 +91,11 @@ class FlickrClient {
             }
             let decoder = JSONDecoder()
             do {
+                print(data)
+//                let range = 14..<data.count
+//                let newData = data.subdata(in: range)
+//                print("new Data")
+//                print(newData)
                 let responseObject = try decoder.decode(ResponseType.self, from: data)
                 DispatchQueue.main.async {
                     completion(responseObject, nil)

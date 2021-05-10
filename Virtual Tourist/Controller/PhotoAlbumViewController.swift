@@ -26,6 +26,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     var longitude: Double!
     var zoomLevel: MKCoordinateSpan!
     var photoAlbum: [UIImage] = []
+    var photoArray: [String] = []
 
     
     // MARK: - View Life Cycle
@@ -51,11 +52,13 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("Latitude: \(String(describing: latitude)), Longitude: \(String(describing: longitude))")
+//        print("Latitude: \(String(describing: latitude)), Longitude: \(String(describing: longitude))")
+        print("Latitude: \(String(latitude)), Longitude: \(String(longitude))")
         loadMapViewLocation()
         
         FlickrClient.searchPhotos(latitude: latitude, longitude: longitude, completion: handleSearchPhotosResponse(photos:error:))
         
+        print("Finished 1st get request")
         collectionView.reloadData()
     }
     
@@ -63,18 +66,6 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     // MARK: - Methods
     
     func setupCollectionViewLayout() {
-//        let spacing: CGFloat = 5
-//        let width = UIScreen.main.bounds.width
-//        let layout = UICollectionViewFlowLayout()
-//        layout.estimatedItemSize = .zero
-//        layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: 50, right: spacing)
-//        let numberOfItems: CGFloat = 3
-//        let itemSize = (width - (spacing * (numberOfItems+1))) / numberOfItems
-//        layout.itemSize = CGSize(width: itemSize, height: itemSize)
-//        layout.minimumInteritemSpacing = spacing
-//        layout.minimumLineSpacing = spacing
-//        collectionView.collectionViewLayout = layout
-        
         let spacing: CGFloat = 5
         let width = UIScreen.main.bounds.width
         flowLayout.estimatedItemSize = .zero
@@ -96,12 +87,24 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     }
 
     func handleSearchPhotosResponse(photos: [Photo], error: Error?) {
-        if !photos.isEmpty {
+        if error != nil {
+            print(error.debugDescription)
+//            return
+        }
+        else {
             for photo in photos {
-                let flickerImageURLAddress = URL(string:"https://farm\(photo.farm).staticflickr.com/\(photo.server)/\(photo.id)_\(photo.secret)_m.jpg")!
-                FlickrClient.getImage(url: flickerImageURLAddress, completion: handleGetImageResponse(image:error:))
+                
+//                let flickerImageURLAddress = URL(string:"https://farm\(photo.farm).staticflickr.com/\(photo.server)/\(photo.id)_\(photo.secret)_m.jpg")!
+//                FlickrClient.getImage(url: flickerImageURLAddress, completion: handleGetImageResponse(image:error:))
+                
+                // Try this
+                print(photo.url)
+                photoArray.append(photo.url)
+                print("Is the first one happening")
             }
         }
+        
+        print("Is the second one happening")
     }
     
     func handleGetImageResponse(image: UIImage?, error: Error?) {
@@ -118,15 +121,34 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
     // MARK: - UICollectionView Delegate & DataSource Methods
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photoAlbum.count
+//        return photoAlbum.count
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomPhotoCell", for: indexPath) as! CustomPhotoCell
         
-        let photo = photoAlbum[indexPath.row]
+        // let photo = photoAlbum[indexPath.row]
         
-        cell.collectionImageView.image = photo
+        // Try this
+//        let photoURL = URL(string: photoArray[indexPath.row])!
+//        print("PhotoURL: \(photoURL)")
+//
+//        FlickrClient.getImage(url: photoURL) { (image, error) in
+//            if let downloadedImage = image {
+//                DispatchQueue.main.async {
+//                    cell.collectionImageView.image = downloadedImage
+//                }
+//            }
+//        }
+//
+//        collectionView.reloadData()
+        
+        cell.collectionImageView.image = UIImage(named: "VirtualTourist_1024")
+        
+//        DispatchQueue.main.async {
+//            cell.collectionImageView.image = photo
+//        }
         
         return cell
     }

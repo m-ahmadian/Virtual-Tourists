@@ -51,7 +51,7 @@
 		E81D21F926430760005D619F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E86B0D882645A4420092BE1A /* FlickrClient.swift */,
+				E8E577022648DDF500B80947 /* Flickr Client */,
 				E8ABCF4F2647850E0088A37F /* FlickrResponses */,
 			);
 			path = Model;
@@ -121,6 +121,14 @@
 				E8D2BE4D264053970049E03D /* LaunchScreen.storyboard */,
 			);
 			path = "Virtual Tourist";
+			sourceTree = "<group>";
+		};
+		E8E577022648DDF500B80947 /* Flickr Client */ = {
+			isa = PBXGroup;
+			children = (
+				E86B0D882645A4420092BE1A /* FlickrClient.swift */,
+			);
+			path = "Flickr Client";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

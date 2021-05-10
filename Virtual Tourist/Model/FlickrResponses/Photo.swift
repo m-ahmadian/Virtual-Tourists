@@ -18,6 +18,10 @@ struct Photo: Codable {
     let isPublic: Int
     let isFriend: Int
     let isFamily: Int
+    let url: String
+    let heightM: Int
+    let widthM: Int
+    
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -29,5 +33,8 @@ struct Photo: Codable {
         case isPublic = "ispublic"
         case isFriend = "isfriend"
         case isFamily = "isfamily"
+        case url = "url_m"
+        case heightM = "height_m"
+        case widthM = "width_m"
     }
 }

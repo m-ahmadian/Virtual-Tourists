@@ -119,8 +119,17 @@ extension TravelLocationsMapViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showTravelVC" {
             let photoAlbumVC = segue.destination as! PhotoAlbumViewController
+            
+            /*
             photoAlbumVC.latitude = selectedPin.annotation?.coordinate.latitude
             photoAlbumVC.longitude = selectedPin.annotation?.coordinate.longitude
+            */
+            
+            // Test this
+            photoAlbumVC.latitude = CLLocationDegrees(String(format: "%f", (selectedPin.annotation?.coordinate.latitude)!))
+            
+            photoAlbumVC.longitude = CLLocationDegrees(String(format: "%f", (selectedPin.annotation?.coordinate.longitude)!))
+            
             photoAlbumVC.zoomLevel = self.zoomLevel
             
             let backButton = UIBarButtonItem(title: "OK", style: .plain, target: self, action: nil)

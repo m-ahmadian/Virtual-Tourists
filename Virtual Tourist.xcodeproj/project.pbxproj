@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E84094E12644E3E900E109A7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E84094E02644E3E900E109A7 /* MapKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		E84435A926499F5E00A7E009 /* PhotosResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84435A826499F5E00A7E009 /* PhotosResponse.swift */; };
 		E86B0D892645A4420092BE1A /* FlickrClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86B0D882645A4420092BE1A /* FlickrClient.swift */; };
 		E8ABCF4E264781A40088A37F /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8ABCF4D264781A40088A37F /* ErrorResponse.swift */; };
 		E8ABCF51264785250088A37F /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8ABCF50264785250088A37F /* Photo.swift */; };
@@ -22,6 +23,7 @@
 
 /* Begin PBXFileReference section */
 		E84094E02644E3E900E109A7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		E84435A826499F5E00A7E009 /* PhotosResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosResponse.swift; sourceTree = "<group>"; };
 		E86B0D882645A4420092BE1A /* FlickrClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrClient.swift; sourceTree = "<group>"; };
 		E8ABCF4D264781A40088A37F /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		E8ABCF50264785250088A37F /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
@@ -85,8 +87,9 @@
 			isa = PBXGroup;
 			children = (
 				E8ABCF4D264781A40088A37F /* ErrorResponse.swift */,
-				E8ABCF50264785250088A37F /* Photo.swift */,
+				E84435A826499F5E00A7E009 /* PhotosResponse.swift */,
 				E8ABCF5226478B290088A37F /* Photos.swift */,
+				E8ABCF50264785250088A37F /* Photo.swift */,
 			);
 			path = FlickrResponses;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 				E86B0D892645A4420092BE1A /* FlickrClient.swift in Sources */,
 				E8ABCF51264785250088A37F /* Photo.swift in Sources */,
 				E8D2BE47264053940049E03D /* TravelLocationsMapViewController.swift in Sources */,
+				E84435A926499F5E00A7E009 /* PhotosResponse.swift in Sources */,
 				E8ABCF4E264781A40088A37F /* ErrorResponse.swift in Sources */,
 				E8D2BE45264053940049E03D /* AppDelegate.swift in Sources */,
 				E8ABCF5326478B290088A37F /* Photos.swift in Sources */,

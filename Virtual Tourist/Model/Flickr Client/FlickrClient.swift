@@ -52,11 +52,12 @@ class FlickrClient {
         var request = URLRequest(url: Endpoints.searchPhotos(latitude, longitude).url)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
-        taskForGETRequest(url: request, response: Photos.self) { (response, error) in
+        taskForGETRequest(url: request, response: PhotosResponse.self) { (response, error) in
             if let response = response {
-                print(response.status)
-                print(response.photo)
-                completion(response.photo, nil)
+                print(response)
+                print(response.stat)
+                print(response.photos.photo)
+                completion(response.photos.photo, nil)
             } else {
                 completion([], error)
             }
@@ -91,12 +92,12 @@ class FlickrClient {
             }
             let decoder = JSONDecoder()
             do {
-                print(data)
 //                let range = 14..<data.count
 //                let newData = data.subdata(in: range)
-//                print("new Data")
-//                print(newData)
+                print(1)
                 let responseObject = try decoder.decode(ResponseType.self, from: data)
+                print(2)
+                print(responseObject)
                 DispatchQueue.main.async {
                     completion(responseObject, nil)
                 }
@@ -115,5 +116,6 @@ class FlickrClient {
         }
         task.resume()
     }
+    
     
 }

@@ -98,8 +98,8 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
 //                FlickrClient.getImage(url: flickerImageURLAddress, completion: handleGetImageResponse(image:error:))
                 
                 // Try this
-                print(photo.url)
-                photoArray.append(photo.url)
+                print(photo.urlM)
+                photoArray.append(photo.urlM)
                 print("Is the first one happening")
             }
         }

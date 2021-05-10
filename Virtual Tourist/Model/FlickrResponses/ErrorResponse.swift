@@ -9,20 +9,22 @@
 import Foundation
 
 struct ErrorResponse: Codable {
-    let stat: String
+    let status: String
     let code: Int
     let message: String
     
-//    enum CodingKeys: String, CodingKey {
-//        case stat
-//        case code
-//        case message
-//    }
+    enum CodingKeys: String, CodingKey {
+        case status = "stat"
+        case code
+        case message
+    }
 }
-
 
 extension ErrorResponse: LocalizedError {
     var errorDescription: String? {
         return message
     }
 }
+
+
+

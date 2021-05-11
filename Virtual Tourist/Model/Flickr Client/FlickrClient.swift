@@ -54,7 +54,7 @@ class FlickrClient {
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         taskForGETRequest(url: request, response: PhotosResponse.self) { (response, error) in
             if let response = response {
-                print(response)
+                // print(response)
                 print(response.stat)
                 print(response.photos.photo)
                 completion(response.photos.photo, nil)

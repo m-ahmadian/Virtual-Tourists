@@ -84,7 +84,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VirtualTourist_1024" translatesAutoresizingMaskIntoConstraints="NO" id="Ssv-0i-fAE">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VirtualTourist_1024" translatesAutoresizingMaskIntoConstraints="NO" id="Ssv-0i-fAE">
                                                             <rect key="frame" x="0.0" y="0.0" width="120" height="0.0"/>
                                                         </imageView>
                                                     </subviews>
@@ -98,10 +98,14 @@
                                                 </constraints>
                                                 <size key="customSize" width="120" height="120"/>
                                                 <connections>
-                                                    <outlet property="collectionImageView" destination="Ssv-0i-fAE" id="dK9-cK-pms"/>
+                                                    <outlet property="collectionImageView" destination="Ssv-0i-fAE" id="Mr2-YI-8Li"/>
                                                 </connections>
                                             </collectionViewCell>
                                         </cells>
+                                        <connections>
+                                            <outlet property="dataSource" destination="XD3-MJ-6gz" id="8vQ-Li-ZB2"/>
+                                            <outlet property="delegate" destination="XD3-MJ-6gz" id="p5M-O1-F9A"/>
+                                        </connections>
                                     </collectionView>
                                 </subviews>
                             </stackView>

@@ -19,8 +19,6 @@ class FlickrClient {
         static var accountId = 0
     }
     
-//     https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=5ef27c06449c66e2fd8578e931c31ade&lat=43.6532&lon=79.3832&extras=url_m&per_page=20&page=1&format=json
-    
     enum Endpoints {
         
         static let base = "https://www.flickr.com/services/rest/"
@@ -33,9 +31,6 @@ class FlickrClient {
             switch self {
             case .searchPhotos(let latitude, let longitude):
                 return Endpoints.base + Endpoints.flickrPhotosSearch + Endpoints.apiKeyParam + "&lat=\(latitude)" + "&lon=\(longitude)" + "&extras=url_m&per_page=20&page=1&format=json&nojsoncallback=1"
-            default:
-                print("default")
-                //
             }
         }
         
@@ -65,7 +60,6 @@ class FlickrClient {
     }
     
     class func getImage(url: URL, completion: @escaping (UIImage?, Error?) -> Void) {
-        // let url = URL(string: flickrImageUrlAddress)!
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let data = data else {
                 DispatchQueue.main.async {
@@ -92,11 +86,7 @@ class FlickrClient {
             }
             let decoder = JSONDecoder()
             do {
-//                let range = 14..<data.count
-//                let newData = data.subdata(in: range)
-                print(1)
                 let responseObject = try decoder.decode(ResponseType.self, from: data)
-                print(2)
                 print(responseObject)
                 DispatchQueue.main.async {
                     completion(responseObject, nil)

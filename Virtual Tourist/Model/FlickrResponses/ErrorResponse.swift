@@ -25,6 +25,3 @@ extension ErrorResponse: LocalizedError {
         return message
     }
 }
-
-
-

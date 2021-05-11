@@ -15,6 +15,7 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
     // MARK: - Outlet
     @IBOutlet weak var mapView: MKMapView!
     
+    
     // MARK: - Properties
     var annotations = [MKPointAnnotation]()
     var centerCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
@@ -27,22 +28,22 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
     var currentRegion: MKCoordinateRegion = MKCoordinateRegion()
     
     
+    // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapView.delegate = self
-        // mapView.setCenter(center, animated: true)
-        
-//        saveMapViewLocation()
         setUpMapView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        // saveMapViewLocation()
-        setUpMapView()
+        saveMapViewLocation()
     }
     
+    
+    // MARK: Helper Methods
     
     func setUpMapView() {
         if UserDefaults.standard.bool(forKey: "hasLaunchedBefore") {
@@ -78,7 +79,6 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
     // MARK: - Actions
     
     @IBAction func mapTapped(_ sender: UILongPressGestureRecognizer) {
-        
         if sender.state == .ended {
             addPin(sender)
         }
@@ -120,20 +120,12 @@ extension TravelLocationsMapViewController {
         if segue.identifier == "showTravelVC" {
             let photoAlbumVC = segue.destination as! PhotoAlbumViewController
             
-            /*
-            photoAlbumVC.latitude = selectedPin.annotation?.coordinate.latitude
-            photoAlbumVC.longitude = selectedPin.annotation?.coordinate.longitude
-            */
-            
-            // Test this
-            photoAlbumVC.latitude = CLLocationDegrees(String(format: "%f", (selectedPin.annotation?.coordinate.latitude)!))
-            
-            photoAlbumVC.longitude = CLLocationDegrees(String(format: "%f", (selectedPin.annotation?.coordinate.longitude)!))
-            
-            photoAlbumVC.zoomLevel = self.zoomLevel
-            
             let backButton = UIBarButtonItem(title: "OK", style: .plain, target: self, action: nil)
             navigationItem.backBarButtonItem = backButton
+            
+            photoAlbumVC.latitude = CLLocationDegrees(String(format: "%f", (selectedPin.annotation?.coordinate.latitude)!))
+            photoAlbumVC.longitude = CLLocationDegrees(String(format: "%f", (selectedPin.annotation?.coordinate.longitude)!))
+            photoAlbumVC.zoomLevel = self.zoomLevel
         }
     }
     

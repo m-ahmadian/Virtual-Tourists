@@ -110,6 +110,21 @@ extension TravelLocationsMapViewController {
         saveMapViewLocation()
     }
     
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let identifier = "location"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView
+
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            pinView?.canShowCallout = true
+            pinView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        } else {
+            pinView?.annotation = annotation
+        }
+
+        pinView?.displayPriority = .required
+        return pinView
+    }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         selectedPin = view
@@ -126,6 +141,7 @@ extension TravelLocationsMapViewController {
             photoAlbumVC.latitude = CLLocationDegrees(String(format: "%f", (selectedPin.annotation?.coordinate.latitude)!))
             photoAlbumVC.longitude = CLLocationDegrees(String(format: "%f", (selectedPin.annotation?.coordinate.longitude)!))
             photoAlbumVC.zoomLevel = self.zoomLevel
+            photoAlbumVC.currentRegion = self.currentRegion
         }
     }
     

@@ -17,8 +17,7 @@ struct PhotosResponse: Codable {
 
 // MARK: - Photos
 struct Photos: Codable {
-    let page, pages, perpage: Int
-    let total: String
+    let page, pages, perpage, total: Int
     let photo: [Photo]
 }
 

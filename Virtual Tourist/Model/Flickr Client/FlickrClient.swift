@@ -25,12 +25,12 @@ class FlickrClient {
         static let flickrPhotosSearch = "?method=flickr.photos.search"
         static let apiKeyParam = "&api_key=\(FlickrClient.apiKey)"
         
-        case searchPhotos(Double, Double)
+        case searchPhotos(Double, Double, Int)
         
         var stringValue: String {
             switch self {
-            case .searchPhotos(let latitude, let longitude):
-                return Endpoints.base + Endpoints.flickrPhotosSearch + Endpoints.apiKeyParam + "&lat=\(latitude)" + "&lon=\(longitude)" + "&extras=url_m&per_page=20&page=1&format=json&nojsoncallback=1"
+            case .searchPhotos(let latitude, let longitude, let page):
+                return Endpoints.base + Endpoints.flickrPhotosSearch + Endpoints.apiKeyParam + "&lat=\(latitude)" + "&lon=\(longitude)" + "&extras=url_m&per_page=20&page=\(page)&format=json&nojsoncallback=1"
             }
         }
         
@@ -41,15 +41,15 @@ class FlickrClient {
     
     
     
-    class func searchPhotos(latitude: Double, longitude: Double, completion: @escaping ([Photo], Error?) -> Void) {
-        print(Endpoints.searchPhotos(latitude, longitude).url)
+    class func searchPhotos(latitude: Double, longitude: Double, page: Int, completion: @escaping ([Photo], Error?) -> Void) {
+        print(Endpoints.searchPhotos(latitude, longitude, page).url)
         
-        var request = URLRequest(url: Endpoints.searchPhotos(latitude, longitude).url)
+        var request = URLRequest(url: Endpoints.searchPhotos(latitude, longitude, page).url)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         taskForGETRequest(url: request, response: PhotosResponse.self) { (response, error) in
             if let response = response {
-                // print(response)
+                print(response)
                 print(response.stat)
                 print(response.photos.photo)
                 completion(response.photos.photo, nil)

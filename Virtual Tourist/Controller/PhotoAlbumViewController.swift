@@ -28,8 +28,10 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     var latitude: Double!
     var longitude: Double!
     var zoomLevel: MKCoordinateSpan!
+    var currentRegion: MKCoordinateRegion!
     var photoAlbum: [UIImage] = []
     var photoArray: [String] = []
+    var count = 1
 
     
     // MARK: - View Life Cycle
@@ -49,7 +51,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         print("Latitude: \(String(latitude)), Longitude: \(String(longitude))")
         loadMapViewLocation()
         
-        FlickrClient.searchPhotos(latitude: latitude, longitude: longitude, completion: handleSearchPhotosResponse(photos:error:))
+        FlickrClient.searchPhotos(latitude: latitude, longitude: longitude, page: 1, completion: handleSearchPhotosResponse(photos:error:))
         collectionView.reloadData()
     }
     
@@ -70,8 +72,9 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     }
     
     func loadMapViewLocation() {
-        let mapCenter = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        let currentRegion = MKCoordinateRegion(center: mapCenter, span: zoomLevel)
+//        let mapCenter = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+//        let currentRegion = MKCoordinateRegion(center: mapCenter, span: zoomLevel)
+//        mapView.setRegion(currentRegion, animated: true)
         mapView.setRegion(currentRegion, animated: true)
     }
 
@@ -88,6 +91,13 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         print(photoArray.count)
         collectionView.reloadData()
     }
+    
+    @IBAction func getNewCollection(_ sender: UIBarButtonItem) {
+        count += 1
+        photoArray.removeAll()
+        FlickrClient.searchPhotos(latitude: latitude, longitude: longitude, page: count, completion: handleSearchPhotosResponse(photos:error:))
+    }
+    
 
 }
 
@@ -102,24 +112,48 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photoArray.count
+        return !photoArray.isEmpty ? photoArray.count : 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomPhotoCell", for: indexPath) as! CustomPhotoCell
         
-        let photoString = photoArray[indexPath.row]
-        let photoURL = URL(string: photoString)!
-        print("PhotoURL: \(photoURL)")
-
-        FlickrClient.getImage(url: photoURL) { (image, error) in
-            if let downloadedImage = image {
-                DispatchQueue.main.async {
-                    cell.collectionImageView.image = downloadedImage
-                    cell.setNeedsLayout()
+        if !photoArray.isEmpty {
+            let photoString = photoArray[indexPath.row]
+            let photoURL = URL(string: photoString)!
+            print("PhotoURL: \(photoURL)")
+            
+            FlickrClient.getImage(url: photoURL) { (image, error) in
+                if let downloadedImage = image {
+                    DispatchQueue.main.async {
+                        cell.collectionImageView.image = downloadedImage
+                        cell.setNeedsLayout()
+                    }
                 }
             }
+        } else {
+            cell.collectionImageView.image = UIImage(named: "VirtualTourist_1024")
         }
+        
+//        guard photoArray != [] else {
+//            cell.collectionImageView.image = UIImage(named: "VirtualTourist_1024")
+//            return cell
+//        }
+//        let photoString = photoArray[indexPath.row]
+//        let photoURL = URL(string: photoString)!
+//        print("PhotoURL: \(photoURL)")
+//
+//        FlickrClient.getImage(url: photoURL) { (image, error) in
+//            if let downloadedImage = image {
+//                DispatchQueue.main.async {
+//                    cell.collectionImageView.image = downloadedImage
+//                    cell.setNeedsLayout()
+//                }
+//            } else {
+//                cell.collectionImageView.image = UIImage(named: "VirtualTourist_1024")
+//            }
+//        }
+        
         return cell
     }
     

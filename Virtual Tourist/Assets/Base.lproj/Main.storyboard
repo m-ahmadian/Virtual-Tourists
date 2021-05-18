@@ -48,7 +48,7 @@
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="945" y="134"/>
+            <point key="canvasLocation" x="909" y="134"/>
         </scene>
         <!--Photo Album View Controller-->
         <scene sceneID="lpF-VZ-Lto">
@@ -59,16 +59,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Lnw-94-Noz">
-                                <rect key="frame" x="0.0" y="88" width="414" height="738"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="nWT-LE-Iof">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="160"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="180"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="160" id="mvt-og-81O"/>
+                                            <constraint firstAttribute="height" constant="180" id="mvt-og-81O"/>
                                         </constraints>
                                     </mapView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="umV-G6-6b4">
-                                        <rect key="frame" x="0.0" y="168" width="414" height="570"/>
+                                        <rect key="frame" x="0.0" y="188" width="414" height="586"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="0fl-ef-Aqh">
                                             <size key="itemSize" width="120" height="120"/>
@@ -109,30 +109,12 @@
                                     </collectionView>
                                 </subviews>
                             </stackView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YyE-wi-NFZ">
-                                <rect key="frame" x="0.0" y="826" width="414" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="ZBw-h5-YfY"/>
-                                </constraints>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="l7e-Dh-tfi"/>
-                                    <barButtonItem title="New Collection" id="tAF-ot-gPH">
-                                        <connections>
-                                            <action selector="getNewCollection:" destination="XD3-MJ-6gz" id="d1Q-bB-N1v"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Pdx-wd-7co"/>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="YyE-wi-NFZ" firstAttribute="leading" secondItem="v7m-Vd-zoH" secondAttribute="leading" symbolic="YES" id="2wW-zc-y7N"/>
                             <constraint firstItem="Lnw-94-Noz" firstAttribute="top" secondItem="Lbf-Q7-Y4N" secondAttribute="top" id="81n-SZ-DfT"/>
                             <constraint firstItem="Lnw-94-Noz" firstAttribute="trailing" secondItem="Lbf-Q7-Y4N" secondAttribute="trailing" id="HhO-Qx-zpG"/>
-                            <constraint firstAttribute="bottom" secondItem="YyE-wi-NFZ" secondAttribute="bottom" constant="20" id="KYn-Rb-9vK"/>
-                            <constraint firstAttribute="trailing" secondItem="YyE-wi-NFZ" secondAttribute="trailing" symbolic="YES" id="Ptv-A3-7Fq"/>
-                            <constraint firstItem="YyE-wi-NFZ" firstAttribute="top" secondItem="Lnw-94-Noz" secondAttribute="bottom" symbolic="YES" id="WHN-ge-0lA"/>
+                            <constraint firstItem="Lnw-94-Noz" firstAttribute="bottom" secondItem="Lbf-Q7-Y4N" secondAttribute="bottom" id="Lbt-w2-Qqv"/>
                             <constraint firstItem="Lnw-94-Noz" firstAttribute="leading" secondItem="Lbf-Q7-Y4N" secondAttribute="leading" id="jvD-yu-mX2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Lbf-Q7-Y4N"/>

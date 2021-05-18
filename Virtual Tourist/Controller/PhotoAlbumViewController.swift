@@ -25,6 +25,8 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     
     
     // MARK: - Properties
+    var annotations = [MKPointAnnotation]()
+    var annotation: MKPointAnnotation!
     var latitude: Double!
     var longitude: Double!
     var zoomLevel: MKCoordinateSpan!
@@ -41,6 +43,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         // Do any additional setup after loading the view.
         collectionView.delegate = self
         collectionView.dataSource = self
+        mapView.delegate = self
         
         setupCollectionViewLayout()
     }
@@ -69,9 +72,15 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         flowLayout.minimumInteritemSpacing = spacing
         flowLayout.minimumLineSpacing = spacing
         collectionView.collectionViewLayout = flowLayout
+        mapView.reloadInputViews()
     }
     
     func loadMapViewLocation() {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        annotations.append(annotation)
+        mapView.addAnnotation(annotation)
+        
         mapView.setRegion(currentRegion, animated: true)
     }
 
@@ -135,4 +144,23 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
         return cell
     }
     
+}
+
+extension PhotoAlbumViewController {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let identifier = "pin"
+        
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView
+        
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            pinView?.canShowCallout = true
+            pinView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        } else {
+            pinView?.annotation = annotation
+        }
+        
+        pinView?.displayPriority = .required
+        return pinView
+    }
 }

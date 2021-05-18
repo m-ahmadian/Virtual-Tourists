@@ -61,6 +61,9 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
         UserDefaults.standard.set(mapView.centerCoordinate.longitude, forKey: "longitude")
         UserDefaults.standard.set(mapView.region.span.latitudeDelta, forKey: "latitudeDelta")
         UserDefaults.standard.set(mapView.region.span.longitudeDelta, forKey: "longitudeDelta")
+        
+        currentRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: UserDefaults.standard.double(forKey: "latitude"), longitude: UserDefaults.standard.double(forKey: "longitude")), span: MKCoordinateSpan(latitudeDelta: UserDefaults.standard.double(forKey: "latitudeDelta"), longitudeDelta: UserDefaults.standard.double(forKey: "longitudeDelta")))
+        
         UserDefaults.standard.synchronize()
     }
     

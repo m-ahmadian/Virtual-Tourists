@@ -72,9 +72,6 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     }
     
     func loadMapViewLocation() {
-//        let mapCenter = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-//        let currentRegion = MKCoordinateRegion(center: mapCenter, span: zoomLevel)
-//        mapView.setRegion(currentRegion, animated: true)
         mapView.setRegion(currentRegion, animated: true)
     }
 
@@ -134,25 +131,6 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
         } else {
             cell.collectionImageView.image = UIImage(named: "VirtualTourist_1024")
         }
-        
-//        guard photoArray != [] else {
-//            cell.collectionImageView.image = UIImage(named: "VirtualTourist_1024")
-//            return cell
-//        }
-//        let photoString = photoArray[indexPath.row]
-//        let photoURL = URL(string: photoString)!
-//        print("PhotoURL: \(photoURL)")
-//
-//        FlickrClient.getImage(url: photoURL) { (image, error) in
-//            if let downloadedImage = image {
-//                DispatchQueue.main.async {
-//                    cell.collectionImageView.image = downloadedImage
-//                    cell.setNeedsLayout()
-//                }
-//            } else {
-//                cell.collectionImageView.image = UIImage(named: "VirtualTourist_1024")
-//            }
-//        }
         
         return cell
     }

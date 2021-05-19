@@ -24,6 +24,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var newCollectionButton: UIBarButtonItem!
     @IBOutlet weak var resultsLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     
     
@@ -93,6 +94,8 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         if error != nil || photos.isEmpty {
             print(error.debugDescription)
             resultsLabel.isHidden = false
+            newCollectionButton.isEnabled = false
+            activityIndicator.stopAnimating()
         }
         else {
             for photo in photos {
@@ -101,12 +104,14 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
                 updateButton(true)
             }
         }
+        // updateButton(true)
         print(photoArray.count)
         collectionView.reloadData()
     }
     
     @IBAction func getNewCollection(_ sender: UIBarButtonItem) {
         resultsLabel.isHidden = true
+        updateButton(false)
         count += 1
         photoArray.removeAll()
         if count >= 1 {
@@ -119,6 +124,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     // Update New Collection Button
     func updateButton(_ finishedDownloading: Bool) {
         newCollectionButton.isEnabled = finishedDownloading
+        finishedDownloading ? activityIndicator.stopAnimating() : activityIndicator.startAnimating()
     }
 }
 

@@ -23,6 +23,8 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var newCollectionButton: UIBarButtonItem!
+    @IBOutlet weak var resultsLabel: UILabel!
+    
     
     
     // MARK: - Properties
@@ -54,6 +56,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         
         print("Latitude: \(String(latitude)), Longitude: \(String(longitude))")
         updateButton(false)
+        resultsLabel.isHidden = true
         loadMapViewLocation()
         
         FlickrClient.searchPhotos(latitude: latitude, longitude: longitude, page: 1, completion: handleSearchPhotosResponse(photos:error:))
@@ -87,8 +90,9 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     }
 
     func handleSearchPhotosResponse(photos: [Photo], error: Error?) {
-        if error != nil {
+        if error != nil || photos.isEmpty {
             print(error.debugDescription)
+            resultsLabel.isHidden = false
         }
         else {
             for photo in photos {
@@ -102,6 +106,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func getNewCollection(_ sender: UIBarButtonItem) {
+        resultsLabel.isHidden = true
         count += 1
         photoArray.removeAll()
         if count >= 1 {
@@ -128,13 +133,14 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return !photoArray.isEmpty ? photoArray.count : 1
+        // return !photoArray.isEmpty ? photoArray.count : 1
+        return photoArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomPhotoCell", for: indexPath) as! CustomPhotoCell
         
-        if !photoArray.isEmpty {
+        if photoArray.count >= 1 {
             let photoString = photoArray[indexPath.row]
             let photoURL = URL(string: photoString)!
             print("PhotoURL: \(photoURL)")
@@ -155,11 +161,12 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if photoArray.count > 1 {
+        if !photoArray.isEmpty {
             photoArray.remove(at: indexPath.item)
             collectionView.deleteItems(at: [indexPath])
-        } else {
-//            FlickrClient.searchPhotos(latitude: latitude, longitude: longitude, page: count, completion: handleSearchPhotosResponse(photos:error:))
+            if photoArray.isEmpty {
+                resultsLabel.isHidden = false
+            }
         }
     }
     

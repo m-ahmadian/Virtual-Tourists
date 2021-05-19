@@ -124,14 +124,24 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Pdx-wd-7co"/>
                                 </items>
                             </toolbar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No Images" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eOY-hg-4Mq">
+                                <rect key="frame" x="20" y="437" width="374" height="57"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="YyE-wi-NFZ" firstAttribute="leading" secondItem="v7m-Vd-zoH" secondAttribute="leading" symbolic="YES" id="2wW-zc-y7N"/>
                             <constraint firstItem="Lnw-94-Noz" firstAttribute="top" secondItem="Lbf-Q7-Y4N" secondAttribute="top" id="81n-SZ-DfT"/>
                             <constraint firstItem="Lnw-94-Noz" firstAttribute="trailing" secondItem="Lbf-Q7-Y4N" secondAttribute="trailing" id="HhO-Qx-zpG"/>
+                            <constraint firstItem="eOY-hg-4Mq" firstAttribute="centerX" secondItem="Lbf-Q7-Y4N" secondAttribute="centerX" id="Jgg-yt-tN0"/>
+                            <constraint firstItem="eOY-hg-4Mq" firstAttribute="centerY" secondItem="Lbf-Q7-Y4N" secondAttribute="centerY" id="KBE-rt-pGh"/>
                             <constraint firstAttribute="bottom" secondItem="YyE-wi-NFZ" secondAttribute="bottom" constant="20" id="KYn-Rb-9vK"/>
                             <constraint firstAttribute="trailing" secondItem="YyE-wi-NFZ" secondAttribute="trailing" symbolic="YES" id="Ptv-A3-7Fq"/>
+                            <constraint firstItem="eOY-hg-4Mq" firstAttribute="width" secondItem="Lbf-Q7-Y4N" secondAttribute="width" id="SqD-eh-Q5x"/>
                             <constraint firstItem="YyE-wi-NFZ" firstAttribute="top" secondItem="Lnw-94-Noz" secondAttribute="bottom" symbolic="YES" id="WHN-ge-0lA"/>
                             <constraint firstItem="Lnw-94-Noz" firstAttribute="leading" secondItem="Lbf-Q7-Y4N" secondAttribute="leading" id="jvD-yu-mX2"/>
                         </constraints>
@@ -142,11 +152,12 @@
                         <outlet property="flowLayout" destination="0fl-ef-Aqh" id="a7p-N9-JwK"/>
                         <outlet property="mapView" destination="nWT-LE-Iof" id="2f3-TG-XIJ"/>
                         <outlet property="newCollectionButton" destination="tAF-ot-gPH" id="eZY-N7-lNs"/>
+                        <outlet property="resultsLabel" destination="eOY-hg-4Mq" id="8Gx-Bm-9OS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SXD-DD-yTA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1632" y="134"/>
+            <point key="canvasLocation" x="1631.8840579710147" y="133.92857142857142"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="YeD-2F-JZf">

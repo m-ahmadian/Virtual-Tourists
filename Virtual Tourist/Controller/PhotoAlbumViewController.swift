@@ -22,6 +22,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    @IBOutlet weak var newCollectionButton: UIBarButtonItem!
     
     
     // MARK: - Properties
@@ -52,6 +53,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         super.viewWillAppear(animated)
         
         print("Latitude: \(String(latitude)), Longitude: \(String(longitude))")
+        updateButton(false)
         loadMapViewLocation()
         
         FlickrClient.searchPhotos(latitude: latitude, longitude: longitude, page: 1, completion: handleSearchPhotosResponse(photos:error:))
@@ -92,6 +94,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
             for photo in photos {
                 print(photo.urlM)
                 photoArray.append(photo.urlM)
+                updateButton(true)
             }
         }
         print(photoArray.count)
@@ -104,7 +107,10 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         FlickrClient.searchPhotos(latitude: latitude, longitude: longitude, page: count, completion: handleSearchPhotosResponse(photos:error:))
     }
     
-
+    // Update New Collection Button
+    func updateButton(_ finishedDownloading: Bool) {
+        newCollectionButton.isEnabled = finishedDownloading
+    }
 }
 
 

@@ -146,6 +146,8 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomPhotoCell", for: indexPath) as! CustomPhotoCell
         
+        cell.collectionImageView.image = UIImage(named: "VirtualTourist_1024")
+        
         if photoArray.count >= 1 {
             let photoString = photoArray[indexPath.row]
             let photoURL = URL(string: photoString)!

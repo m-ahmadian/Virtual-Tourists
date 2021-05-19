@@ -104,7 +104,11 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     @IBAction func getNewCollection(_ sender: UIBarButtonItem) {
         count += 1
         photoArray.removeAll()
-        FlickrClient.searchPhotos(latitude: latitude, longitude: longitude, page: count, completion: handleSearchPhotosResponse(photos:error:))
+        if count >= 1 {
+            FlickrClient.searchPhotos(latitude: latitude, longitude: longitude, page: count, completion: handleSearchPhotosResponse(photos:error:))
+        } else {
+            count = 1
+        }
     }
     
     // Update New Collection Button
@@ -148,6 +152,15 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
         }
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if photoArray.count > 1 {
+            photoArray.remove(at: indexPath.item)
+            collectionView.deleteItems(at: [indexPath])
+        } else {
+//            FlickrClient.searchPhotos(latitude: latitude, longitude: longitude, page: count, completion: handleSearchPhotosResponse(photos:error:))
+        }
     }
     
 }

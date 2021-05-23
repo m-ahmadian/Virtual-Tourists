@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import CoreData
 
 class TravelLocationsMapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
@@ -18,6 +19,7 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
     
     // MARK: - Properties
     var dataController: DataController!
+    var pins = [Pin]()
     var annotations = [MKPointAnnotation]()
     var centerCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
     var selectedPin: MKAnnotationView = MKAnnotationView()
@@ -31,11 +33,25 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
     
     // MARK: - View Life Cycle
     
+    fileprivate func setUpFetchRequest() {
+        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
+        if let result = try? dataController.viewContext.fetch(fetchRequest) {
+            self.pins = result
+            mapView.reloadInputViews()
+            mapView.setNeedsLayout()
+            loadMapViewLocation()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapView.delegate = self
         setUpMapView()
+        
+        
+        setUpFetchRequest()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -69,6 +85,10 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
     }
     
     func loadMapViewLocation() {
+        
+        mapView.removeAnnotations(annotations)
+        annotations.removeAll()
+        
         latitude = UserDefaults.standard.double(forKey: "latitude")
         longitude = UserDefaults.standard.double(forKey: "longitude")
         latitudeDelta = UserDefaults.standard.double(forKey: "latitudeDelta")
@@ -77,6 +97,17 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
         zoomLevel = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
         currentRegion = MKCoordinateRegion(center: centerCoordinate, span: zoomLevel)
         mapView.setRegion(currentRegion, animated: true)
+        
+        // Try this
+        for pin in pins {
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
+            annotation.title = "New Title"
+            annotation.title = "New Title"
+            
+            annotations.append(annotation)
+        }
+        self.mapView.addAnnotations(annotations)
     }
 
     
@@ -91,6 +122,12 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
     fileprivate func addPin(_ sender: UILongPressGestureRecognizer) {
         let location = sender.location(in: self.mapView)
         let locationCoordinate = self.mapView.convert(location, toCoordinateFrom: self.mapView)
+        
+        let pin = Pin(context: dataController.viewContext)
+        pin.latitude = locationCoordinate.latitude
+        pin.longitude = locationCoordinate.longitude
+        try? dataController.viewContext.save()
+        self.pins.append(pin)
         
         let annotation = MKPointAnnotation()
         annotation.coordinate = locationCoordinate
@@ -132,7 +169,24 @@ extension TravelLocationsMapViewController {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         selectedPin = view
-        performSegue(withIdentifier: "showTravelVC", sender: self)
+        
+        let alert = UIAlertController(title: "Marked Location", message: "Marked Location", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Display Photo Collection", style: .default, handler: { (_) in
+            self.performSegue(withIdentifier: "showTravelVC", sender: self)
+        }))
+        alert.addAction(UIAlertAction(title: "Remove Marker", style: .destructive, handler: { (_) in
+            for pin in self.pins {
+                if pin.latitude == self.selectedPin.annotation?.coordinate.latitude && pin.longitude == self.selectedPin.annotation?.coordinate.longitude {
+                    let pinToDelete = pin
+                    self.dataController.viewContext.delete(pinToDelete)
+                    try? self.dataController.viewContext.save()
+                    self.setUpFetchRequest()
+                }
+            }
+        }))
+        
+        present(alert, animated: true, completion: nil)
+        // performSegue(withIdentifier: "showTravelVC", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

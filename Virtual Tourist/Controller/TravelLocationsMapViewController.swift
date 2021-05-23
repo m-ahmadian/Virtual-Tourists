@@ -17,6 +17,7 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
     
     
     // MARK: - Properties
+    var dataController: DataController!
     var annotations = [MKPointAnnotation]()
     var centerCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
     var selectedPin: MKAnnotationView = MKAnnotationView()

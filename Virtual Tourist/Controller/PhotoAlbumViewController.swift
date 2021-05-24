@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 // MARK: - CollectionViewCell Class
 class CustomPhotoCell: UICollectionViewCell {
@@ -27,8 +28,9 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     
-    
     // MARK: - Properties
+    var dataController: DataController!
+    var pin: Pin!
     var annotations = [MKPointAnnotation]()
     var annotation: MKPointAnnotation!
     var latitude: Double!
@@ -50,6 +52,9 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         mapView.delegate = self
         
         setupCollectionViewLayout()
+        
+        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
+        let predicate = NSPredicate(format: "pin == %@", pin)
     }
     
     override func viewWillAppear(_ animated: Bool) {

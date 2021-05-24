@@ -20,9 +20,10 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
     // MARK: - Properties
     var dataController: DataController!
     var pins = [Pin]()
+    var selectedPin: Pin!
     var annotations = [MKPointAnnotation]()
     var centerCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
-    var selectedPin: MKAnnotationView = MKAnnotationView()
+    var selectedPinView: MKAnnotationView = MKAnnotationView()
     var latitude: Double = 0.0
     var longitude: Double = 0.0
     var latitudeDelta: Double = 0.0
@@ -51,7 +52,6 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
         
         
         setUpFetchRequest()
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -168,21 +168,30 @@ extension TravelLocationsMapViewController {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        selectedPin = view
+        selectedPinView = view
         
-        let alert = UIAlertController(title: "Marked Location", message: "Latitude: \(selectedPin.annotation?.coordinate.latitude ?? 0.0) \n Longitude: \(selectedPin.annotation?.coordinate.longitude ?? 0.0)", preferredStyle: .alert)
+        for pin in pins {
+            if pin.latitude == self.selectedPinView.annotation?.coordinate.latitude && pin.longitude == self.selectedPinView.annotation?.coordinate.longitude {
+                selectedPin = pin
+            }
+        }
+        
+        let alert = UIAlertController(title: "Marked Location", message: "Latitude: \(selectedPinView.annotation?.coordinate.latitude ?? 0.0) \n Longitude: \(selectedPinView.annotation?.coordinate.longitude ?? 0.0)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Display Photo Collection", style: .default, handler: { (_) in
             self.performSegue(withIdentifier: "showTravelVC", sender: self)
         }))
         alert.addAction(UIAlertAction(title: "Remove Marker", style: .destructive, handler: { (_) in
-            for pin in self.pins {
-                if pin.latitude == self.selectedPin.annotation?.coordinate.latitude && pin.longitude == self.selectedPin.annotation?.coordinate.longitude {
-                    let pinToDelete = pin
-                    self.dataController.viewContext.delete(pinToDelete)
-                    try? self.dataController.viewContext.save()
-                    self.setUpFetchRequest()
-                }
-            }
+//            for pin in self.pins {
+//                if pin.latitude == self.selectedPinView.annotation?.coordinate.latitude && pin.longitude == self.selectedPinView.annotation?.coordinate.longitude {
+//                    let pinToDelete = pin
+//                    self.dataController.viewContext.delete(pinToDelete)
+//                    try? self.dataController.viewContext.save()
+//                    self.setUpFetchRequest()
+//                }
+//            }
+            self.dataController.viewContext.delete(self.selectedPin)
+            try? self.dataController.viewContext.save()
+            self.setUpFetchRequest()
         }))
         present(alert, animated: true) {
             alert.view.superview?.isUserInteractionEnabled = true
@@ -198,11 +207,14 @@ extension TravelLocationsMapViewController {
         if segue.identifier == "showTravelVC" {
             let photoAlbumVC = segue.destination as! PhotoAlbumViewController
             
+            photoAlbumVC.dataController = dataController
+            photoAlbumVC.pin = selectedPin
+            
             let backButton = UIBarButtonItem(title: "OK", style: .plain, target: self, action: nil)
             navigationItem.backBarButtonItem = backButton
             
-            photoAlbumVC.latitude = CLLocationDegrees(String(format: "%f", (selectedPin.annotation?.coordinate.latitude)!))
-            photoAlbumVC.longitude = CLLocationDegrees(String(format: "%f", (selectedPin.annotation?.coordinate.longitude)!))
+            photoAlbumVC.latitude = CLLocationDegrees(String(format: "%f", (selectedPinView.annotation?.coordinate.latitude)!))
+            photoAlbumVC.longitude = CLLocationDegrees(String(format: "%f", (selectedPinView.annotation?.coordinate.longitude)!))
             photoAlbumVC.zoomLevel = self.zoomLevel
             photoAlbumVC.currentRegion = self.currentRegion
         }

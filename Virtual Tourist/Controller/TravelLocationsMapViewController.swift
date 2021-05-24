@@ -102,8 +102,8 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
         for pin in pins {
             let annotation = MKPointAnnotation()
             annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
-            annotation.title = "New Title"
-            annotation.title = "New Title"
+            // annotation.title = "New Title"
+            // annotation.title = "New Title"
             
             annotations.append(annotation)
         }
@@ -131,8 +131,8 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
         
         let annotation = MKPointAnnotation()
         annotation.coordinate = locationCoordinate
-        annotation.title = "New Title"
-        annotation.subtitle = "New Detail"
+        // annotation.title = "New Title"
+        // annotation.subtitle = "New Detail"
         
         annotations.append(annotation)
         self.mapView.addAnnotations(annotations)
@@ -170,7 +170,7 @@ extension TravelLocationsMapViewController {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         selectedPin = view
         
-        let alert = UIAlertController(title: "Marked Location", message: "Marked Location", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Marked Location", message: "Latitude: \(selectedPin.annotation?.coordinate.latitude ?? 0.0) \n Longitude: \(selectedPin.annotation?.coordinate.longitude ?? 0.0)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Display Photo Collection", style: .default, handler: { (_) in
             self.performSegue(withIdentifier: "showTravelVC", sender: self)
         }))
@@ -184,9 +184,14 @@ extension TravelLocationsMapViewController {
                 }
             }
         }))
-        
-        present(alert, animated: true, completion: nil)
-        // performSegue(withIdentifier: "showTravelVC", sender: self)
+        present(alert, animated: true) {
+            alert.view.superview?.isUserInteractionEnabled = true
+            alert.view.superview?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.dismissAlertView)))
+        }
+    }
+    
+    @objc func dismissAlertView() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

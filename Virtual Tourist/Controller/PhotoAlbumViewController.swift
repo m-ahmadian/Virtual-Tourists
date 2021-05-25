@@ -17,7 +17,7 @@ class CustomPhotoCell: UICollectionViewCell {
 
 
 // MARK: - PhotoAlbumViewController Class
-class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
+class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsControllerDelegate {
     
     // MARK: - Outlets
     @IBOutlet weak var mapView: MKMapView!
@@ -30,6 +30,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: - Properties
     var dataController: DataController!
+    var fetchedResultsController: NSFetchedResultsController<Picture>!
     var pin: Pin!
     var annotations = [MKPointAnnotation]()
     var annotation: MKPointAnnotation!
@@ -74,6 +75,22 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         setupCollectionViewLayout()
     }
     
+    fileprivate func setUpFetchedResultsController() {
+        let fetchRequest: NSFetchRequest<Picture> = Picture.fetchRequest()
+        let predicate = NSPredicate(format: "pin == %@", pin)
+        fetchRequest.predicate = predicate
+        let sortDescriptor = NSSortDescriptor(key: "url", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("The fetch could not be performed: \(error.localizedDescription)")
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -82,6 +99,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         resultsLabel.isHidden = true
         loadMapViewLocation()
         
+        setUpFetchedResultsController()
         setUpFetchRequest()
         
         if photoArray.isEmpty {
@@ -89,6 +107,11 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
             collectionView.reloadData()
         }
         
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        fetchedResultsController = nil
     }
     
     

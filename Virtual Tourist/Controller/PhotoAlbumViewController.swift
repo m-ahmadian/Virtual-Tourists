@@ -43,6 +43,18 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
 
     
     // MARK: - View Life Cycle
+    fileprivate func setUpFetchRequest() {
+        let fetchRequest: NSFetchRequest<Picture> = Picture.fetchRequest()
+        let predicate = NSPredicate(format: "pin == %@", pin)
+        fetchRequest.predicate = predicate
+        
+        if let result = try? dataController.viewContext.fetch(fetchRequest) {
+            for urlString in result {
+                photoArray.append(urlString.url ?? "")
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -52,9 +64,6 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         mapView.delegate = self
         
         setupCollectionViewLayout()
-        
-        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
-        let predicate = NSPredicate(format: "pin == %@", pin)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,8 +74,13 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         resultsLabel.isHidden = true
         loadMapViewLocation()
         
-        FlickrClient.searchPhotos(latitude: latitude, longitude: longitude, page: 1, completion: handleSearchPhotosResponse(photos:error:))
-        collectionView.reloadData()
+        setUpFetchRequest()
+        
+        if photoArray.isEmpty {
+            FlickrClient.searchPhotos(latitude: latitude, longitude: longitude, page: 1, completion: handleSearchPhotosResponse(photos:error:))
+            collectionView.reloadData()
+        }
+        
     }
     
     

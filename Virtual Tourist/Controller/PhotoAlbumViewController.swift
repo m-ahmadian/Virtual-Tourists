@@ -49,10 +49,18 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         fetchRequest.predicate = predicate
         
         if let result = try? dataController.viewContext.fetch(fetchRequest) {
-            for urlString in result {
-                photoArray.append(urlString.url ?? "")
+//            for urlString in result {
+//                photoArray.append(urlString.url ?? "")
+//            }
+            
+            for picture in result {
+                if let fetchedData = picture.image {
+                    photoAlbum.append(UIImage(data: fetchedData)!)
+                }
             }
+            
         }
+        
     }
     
     override func viewDidLoad() {
@@ -167,22 +175,68 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
         
         cell.collectionImageView.image = UIImage(named: "VirtualTourist_1024")
         
-        if photoArray.count >= 1 {
-            let photoString = photoArray[indexPath.row]
-            let photoURL = URL(string: photoString)!
-            print("PhotoURL: \(photoURL)")
+        if !photoAlbum.isEmpty {
             
-            FlickrClient.getImage(url: photoURL) { (image, error) in
-                if let downloadedImage = image {
-                    DispatchQueue.main.async {
-                        cell.collectionImageView.image = downloadedImage
-                        cell.setNeedsLayout()
-                    }
-                }
-            }
+            let image = photoAlbum[indexPath.row]
+            cell.collectionImageView.image = image
+            
         } else {
-            cell.collectionImageView.image = UIImage(named: "VirtualTourist_1024")
+            if photoArray.count >= 1 {
+                let photoString = photoArray[indexPath.row]
+                let photoURL = URL(string: photoString)!
+                print("PhotoURL: \(photoURL)")
+                
+                
+                let downloadedPhoto = Picture(context: dataController.viewContext)
+                downloadedPhoto.url = photoString
+                
+//                FlickrClient.getImage(url: photoURL) { (image, error) in
+//                    if let downloadedImage = image {
+//                        DispatchQueue.main.async {
+//                            cell.collectionImageView.image = downloadedImage
+//                            cell.setNeedsLayout()
+//                        }
+//                    }
+//                }
+                
+                FlickrClient.getImage2(url: photoURL) { (data, error) in
+                    guard let data = data else {
+                        return
+                    }
+                    downloadedPhoto.image = data
+                    if let downloadedImage = UIImage(data: data) {
+                        DispatchQueue.main.async {
+                            cell.collectionImageView.image = downloadedImage
+                            cell.setNeedsLayout()
+                        }
+                    }
+                    downloadedPhoto.pin = self.pin
+                    try? self.dataController.viewContext.save()
+                }
+            } else {
+                cell.collectionImageView.image = UIImage(named: "VirtualTourist_1024")
+            }
         }
+        
+//        if photoArray.count >= 1 {
+//            let photoString = photoArray[indexPath.row]
+//            let photoURL = URL(string: photoString)!
+//            print("PhotoURL: \(photoURL)")
+//
+//            let downloadedPhoto = Picture(context: dataController.viewContext)
+//            downloadedPhoto.url = photoString
+//
+//            FlickrClient.getImage(url: photoURL) { (image, error) in
+//                if let downloadedImage = image {
+//                    DispatchQueue.main.async {
+//                        cell.collectionImageView.image = downloadedImage
+//                        cell.setNeedsLayout()
+//                    }
+//                }
+//            }
+//        } else {
+//            cell.collectionImageView.image = UIImage(named: "VirtualTourist_1024")
+//        }
         
         return cell
     }

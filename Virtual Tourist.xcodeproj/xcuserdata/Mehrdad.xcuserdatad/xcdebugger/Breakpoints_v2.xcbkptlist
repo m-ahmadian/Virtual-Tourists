@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Virtual Tourist/Model/Flickr Client/FlickrClient.swift"
-            timestampString = "643004853.708264"
+            timestampString = "643605930.741196"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
             landmarkName = "taskForGETRequest(url:response:completion:)"
             landmarkType = "7">
             <Locations>

@@ -17,7 +17,7 @@ class CustomPhotoCell: UICollectionViewCell {
 
 
 // MARK: - PhotoAlbumViewController Class
-class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsControllerDelegate {
+class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: - Outlets
     @IBOutlet weak var mapView: MKMapView!
@@ -31,6 +31,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
     // MARK: - Properties
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<Picture>!
+    var blockOperations = [BlockOperation]()
     var pin: Pin!
     var annotations = [MKPointAnnotation]()
     var annotation: MKPointAnnotation!
@@ -95,14 +96,22 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
         super.viewWillAppear(animated)
         
         print("Latitude: \(String(latitude)), Longitude: \(String(longitude))")
+        print("Latitude: \(pin.latitude)")
+        print("Longitude: \(pin.longitude)")
         updateButton(false)
         resultsLabel.isHidden = true
         loadMapViewLocation()
         
         setUpFetchedResultsController()
-        setUpFetchRequest()
+        // setUpFetchRequest()
         
-        if photoArray.isEmpty {
+//        if photoArray.isEmpty {
+//            FlickrClient.searchPhotos(latitude: latitude, longitude: longitude, page: 1, completion: handleSearchPhotosResponse(photos:error:))
+//            collectionView.reloadData()
+//        }
+        
+        // Try this
+        if fetchedResultsController.fetchedObjects!.isEmpty {
             FlickrClient.searchPhotos(latitude: latitude, longitude: longitude, page: 1, completion: handleSearchPhotosResponse(photos:error:))
             collectionView.reloadData()
         }
@@ -185,12 +194,16 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
     // MARK: - UICollectionView Delegate & DataSource Method
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        // return 1
+        // Try this
+        return fetchedResultsController.sections?.count ?? 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // return !photoArray.isEmpty ? photoArray.count : 1
-        return photoArray.count
+        // return photoArray.count
+        // Try this
+        return photoArray.count != 0 ? photoArray.count : fetchedResultsController.sections?[section].numberOfObjects ?? 0
+//        return fetchedResultsController.sections?[section].numberOfObjects ?? photoArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -198,12 +211,19 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
         
         cell.collectionImageView.image = UIImage(named: "VirtualTourist_1024")
         
-        if !photoAlbum.isEmpty {
-            
-            let image = photoAlbum[indexPath.row]
-            cell.collectionImageView.image = image
-            
-        } else {
+//        if !photoAlbum.isEmpty {
+//
+//            let image = photoAlbum[indexPath.row]
+//            cell.collectionImageView.image = image
+//
+//        }
+        // Try This
+        if !fetchedResultsController.fetchedObjects!.isEmpty {
+            if let imageData = fetchedResultsController.object(at: indexPath).image {
+                cell.collectionImageView.image = UIImage(data: imageData)
+            }
+        }
+        else {
             if photoArray.count >= 1 {
                 let photoString = photoArray[indexPath.row]
                 let photoURL = URL(string: photoString)!
@@ -292,5 +312,54 @@ extension PhotoAlbumViewController {
         
         pinView?.displayPriority = .required
         return pinView
+    }
+}
+
+
+
+extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        blockOperations.removeAll()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        collectionView.performBatchUpdates({
+            for operation in blockOperations {
+                operation.start()
+            }
+        }) { (completed) in
+            self.blockOperations.removeAll()
+            self.collectionView.reloadData()
+            let lastItem = self.fetchedResultsController.sections![0].numberOfObjects - 1
+            let indexPath = IndexPath(item: lastItem, section: 0)
+            self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+        }
+    }
+    
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            blockOperations.append(BlockOperation(block: { [weak self] in
+                self?.collectionView.insertItems(at: [newIndexPath!])
+            }))
+            
+        case .delete:
+            blockOperations.append(BlockOperation(block: { [weak self] in
+                self?.collectionView.deleteItems(at: [indexPath!])
+            }))
+            
+        case .move:
+            blockOperations.append(BlockOperation(block: { [weak self] in
+               self?.collectionView.moveItem(at: indexPath!, to: newIndexPath!)
+            }))
+        case .update:
+            blockOperations.append(BlockOperation(block: { [weak self] in
+                self?.collectionView.reloadItems(at: [indexPath!])
+            }))
+        @unknown default:
+            break
+        }
     }
 }

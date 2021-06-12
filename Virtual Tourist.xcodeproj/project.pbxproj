@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E84094E12644E3E900E109A7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E84094E02644E3E900E109A7 /* MapKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		E84435A926499F5E00A7E009 /* PhotosResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84435A826499F5E00A7E009 /* PhotosResponse.swift */; };
+		E84903732671171F00D6E02D /* Pin+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84903722671171F00D6E02D /* Pin+Extensions.swift */; };
 		E86B0D892645A4420092BE1A /* FlickrClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86B0D882645A4420092BE1A /* FlickrClient.swift */; };
 		E88CF607265AA9560093B856 /* Virtual Tourist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E88CF605265AA9560093B856 /* Virtual Tourist.xcdatamodeld */; };
 		E89ACE1F265A15CB00AAF8B0 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89ACE1E265A15CB00AAF8B0 /* DataController.swift */; };
@@ -24,6 +25,7 @@
 /* Begin PBXFileReference section */
 		E84094E02644E3E900E109A7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E84435A826499F5E00A7E009 /* PhotosResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosResponse.swift; sourceTree = "<group>"; };
+		E84903722671171F00D6E02D /* Pin+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+Extensions.swift"; sourceTree = "<group>"; };
 		E86B0D882645A4420092BE1A /* FlickrClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrClient.swift; sourceTree = "<group>"; };
 		E88CF606265AA9560093B856 /* Virtual Tourist.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Virtual Tourist.xcdatamodel"; sourceTree = "<group>"; };
 		E89ACE1E265A15CB00AAF8B0 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
@@ -53,6 +55,7 @@
 		E81D21F926430760005D619F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E84903712671165400D6E02D /* Managed Object Extensions */,
 				E8E577022648DDF500B80947 /* Flickr Client */,
 				E8ABCF4F2647850E0088A37F /* FlickrResponses */,
 				E89ACE1E265A15CB00AAF8B0 /* DataController.swift */,
@@ -83,6 +86,14 @@
 				E84094E02644E3E900E109A7 /* MapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E84903712671165400D6E02D /* Managed Object Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E84903722671171F00D6E02D /* Pin+Extensions.swift */,
+			);
+			path = "Managed Object Extensions";
 			sourceTree = "<group>";
 		};
 		E8ABCF4F2647850E0088A37F /* FlickrResponses */ = {
@@ -207,6 +218,7 @@
 			files = (
 				E89ACE1F265A15CB00AAF8B0 /* DataController.swift in Sources */,
 				E86B0D892645A4420092BE1A /* FlickrClient.swift in Sources */,
+				E84903732671171F00D6E02D /* Pin+Extensions.swift in Sources */,
 				E8D2BE47264053940049E03D /* TravelLocationsMapViewController.swift in Sources */,
 				E84435A926499F5E00A7E009 /* PhotosResponse.swift in Sources */,
 				E8ABCF4E264781A40088A37F /* ErrorResponse.swift in Sources */,

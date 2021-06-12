@@ -19,7 +19,6 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
     
     // MARK: - Properties
     var dataController: DataController!
-    // var pins = [Pin]()
     var selectedPin: Pin!
     var fetchedResultsController: NSFetchedResultsController<Pin>!
     var blockOperations = [BlockOperation]()
@@ -37,15 +36,6 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
     // MARK: - View Life Cycle
     
     fileprivate func setUpFetchedResultsController() {
-//        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
-//        if let result = try? dataController.viewContext.fetch(fetchRequest) {
-//            self.pins = result
-//            mapView.reloadInputViews()
-//            mapView.setNeedsLayout()
-//            loadMapViewLocation()
-//        }
-        
-        // Try this
         let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "latitude", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
@@ -120,25 +110,11 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
         currentRegion = MKCoordinateRegion(center: centerCoordinate, span: zoomLevel)
         mapView.setRegion(currentRegion, animated: true)
         
-        // Try this
-//        for pin in pins {
-//            let annotation = MKPointAnnotation()
-//            annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
-//            // annotation.title = "New Title"
-//            // annotation.title = "New Title"
-//
-//            annotations.append(annotation)
-//        }
-//        self.mapView.addAnnotations(annotations)
-        
-        // Now try this with frc
+        // Create a Pin object
         if let pins = fetchedResultsController.fetchedObjects {
             for pin in pins {
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
-                
-                // annotation.title = "New Title"
-                // annotation.title = "New Title"
                 annotations.append(annotation)
             }
         }
@@ -162,25 +138,12 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
         pin.latitude = locationCoordinate.latitude
         pin.longitude = locationCoordinate.longitude
         try? dataController.viewContext.save()
-        // self.pins.append(pin)
-        
-//        let annotation = MKPointAnnotation()
-//        annotation.coordinate = locationCoordinate
-//        // annotation.title = "New Title"
-//        // annotation.subtitle = "New Detail"
-//
-////        annotations.append(annotation)
-////        self.mapView.addAnnotations(annotations)
-//
-//        // Try this
-//        DispatchQueue.main.async {
-//            self.annotations.append(annotation)
-//            self.mapView.addAnnotations(self.annotations)
-//        }
     }
     
 }
 
+
+// MARK: - Extension for MKMapViewDelegate Methods
 
 extension TravelLocationsMapViewController {
     
@@ -224,17 +187,8 @@ extension TravelLocationsMapViewController {
             self.performSegue(withIdentifier: "showTravelVC", sender: self)
         }))
         alert.addAction(UIAlertAction(title: "Remove Marker", style: .destructive, handler: { (_) in
-//            for pin in self.pins {
-//                if pin.latitude == self.selectedPinView.annotation?.coordinate.latitude && pin.longitude == self.selectedPinView.annotation?.coordinate.longitude {
-//                    let pinToDelete = pin
-//                    self.dataController.viewContext.delete(pinToDelete)
-//                    try? self.dataController.viewContext.save()
-//                    self.setUpFetchRequest()
-//                }
-//            }
             self.dataController.viewContext.delete(self.selectedPin)
             try? self.dataController.viewContext.save()
-            // self.setUpFetchedResultsController()
         }))
         present(alert, animated: true) {
             alert.view.superview?.isUserInteractionEnabled = true
@@ -266,54 +220,8 @@ extension TravelLocationsMapViewController {
 }
 
 
+// MARK: - Extension for NSFetchedResultsControllerDelegate Methods
 
-//extension TravelLocationsMapViewController: NSFetchedResultsControllerDelegate {
-//
-//    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        blockOperations.removeAll()
-//    }
-//
-//    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        for operation in blockOperations {
-//            operation.start()
-//        }
-////        blockOperations.removeAll()
-////        mapView.addAnnotations(annotations)
-//        mapView.reloadInputViews()
-//    }
-//
-//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-////        guard let pin = anObject as? MKPointAnnotation else {
-////            preconditionFailure("All changes observed should be for Pin instances.")
-////        }
-//
-//        let pin = anObject as! Pin
-//        let pointAnnotation = MKPointAnnotation()
-//        pointAnnotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
-//
-//        switch type {
-//        case .insert:
-//            blockOperations.append(BlockOperation(block: { [weak self] in
-//                self?.mapView.addAnnotation(pointAnnotation)
-//            }))
-//
-//        case .delete:
-//            blockOperations.append(BlockOperation(block: { [weak self] in
-//                self?.mapView.removeAnnotation(pointAnnotation)
-//            }))
-//        case .update:
-//            blockOperations.append(BlockOperation(block: { [weak self] in
-//                self?.mapView.removeAnnotation(pointAnnotation)
-//                self?.mapView.addAnnotation(pointAnnotation)
-//            }))
-//        case .move:
-//            fatalError("Mapview does not sort pins!")
-//        }
-//    }
-//}
-
-
-// Try this
 extension TravelLocationsMapViewController: NSFetchedResultsControllerDelegate {
 
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -325,7 +233,6 @@ extension TravelLocationsMapViewController: NSFetchedResultsControllerDelegate {
             operation.start()
         }
         blockOperations.removeAll()
-        // mapView.addAnnotations(annotations)
     }
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {

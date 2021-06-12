@@ -83,7 +83,6 @@ class FlickrClient {
                 }
                 return
             }
-            // let downloadedImage = UIImage(data: data)
             DispatchQueue.main.async {
                 completion(data, nil)
             }
@@ -122,6 +121,5 @@ class FlickrClient {
         }
         task.resume()
     }
-    
-    
+
 }

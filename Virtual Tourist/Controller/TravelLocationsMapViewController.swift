@@ -343,21 +343,12 @@ extension TravelLocationsMapViewController: NSFetchedResultsControllerDelegate {
 
         case .delete:
             blockOperations.append(BlockOperation(block: { [weak self] in
-//                if let index = indexPath {
-//                    print(index)
-//                    let pinToDelete = anObject as! Pin
-//                    let pointAnnotation = MKPointAnnotation()
-//                    pointAnnotation.coordinate = CLLocationCoordinate2D(latitude: (pinToDelete as AnyObject).latitude, longitude: pinToDelete.longitude)
-//                    print("point annotation coordinate: \(pointAnnotation.coordinate.latitude)")
-//                    self?.mapView.removeAnnotation(pointAnnotation)
-//                    self?.mapView.reloadInputViews()
-//                }
                 let pinToDelete = anObject as! Pin
-                let pointAnnotation = MKPointAnnotation()
-                pointAnnotation.coordinate = CLLocationCoordinate2D(latitude: (pinToDelete as AnyObject).latitude, longitude: pinToDelete.longitude)
-                print("point annotation coordinate: \(pointAnnotation.coordinate.latitude)")
-                self?.mapView.removeAnnotation(pointAnnotation)
-                self?.mapView.reloadInputViews()
+                for annotaion in self!.mapView!.annotations {
+                    if (annotaion.coordinate.latitude == pinToDelete.latitude && annotaion.coordinate.longitude == pinToDelete.longitude) {
+                        self?.mapView.removeAnnotation(annotaion)
+                    }
+                }
             }))
         default:
             break

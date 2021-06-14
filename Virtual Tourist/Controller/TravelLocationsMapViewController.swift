@@ -35,27 +35,9 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
     
     // MARK: - View Life Cycle
     
-    fileprivate func setUpFetchedResultsController() {
-        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "latitude", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        
-        fetchedResultsController.delegate = self
-        
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            fatalError("The fetch could not be performed: \(error.localizedDescription)")
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         mapView.delegate = self
-        
         setUpFetchedResultsController()
         setUpMapView()
     }
@@ -72,7 +54,43 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
     }
     
     
+    // -------------------------------------------------------------------------
+    // MARK: - Actions
+    
+    @IBAction func mapTapped(_ sender: UILongPressGestureRecognizer) {
+        if sender.state == .ended {
+            addPin(sender)
+        }
+    }
+    
+    
     // MARK: Helper Methods
+    
+    fileprivate func addPin(_ sender: UILongPressGestureRecognizer) {
+        let location = sender.location(in: self.mapView)
+        let locationCoordinate = self.mapView.convert(location, toCoordinateFrom: self.mapView)
+        
+        let pin = Pin(context: dataController.viewContext)
+        pin.latitude = locationCoordinate.latitude
+        pin.longitude = locationCoordinate.longitude
+        try? dataController.viewContext.save()
+    }
+    
+    fileprivate func setUpFetchedResultsController() {
+        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "latitude", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("The fetch could not be performed: \(error.localizedDescription)")
+        }
+    }
     
     func setUpMapView() {
         if UserDefaults.standard.bool(forKey: "hasLaunchedBefore") {
@@ -84,7 +102,7 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
             saveMapViewLocation()
         }
     }
-
+    
     func saveMapViewLocation() {
         UserDefaults.standard.set(mapView.centerCoordinate.latitude, forKey: "latitude")
         UserDefaults.standard.set(mapView.centerCoordinate.longitude, forKey: "longitude")
@@ -97,7 +115,6 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
     }
     
     func loadMapViewLocation() {
-        
         mapView.removeAnnotations(annotations)
         annotations.removeAll()
         
@@ -120,26 +137,6 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
         }
         self.mapView.addAnnotations(annotations)
     }
-
-    
-    // MARK: - Actions
-    
-    @IBAction func mapTapped(_ sender: UILongPressGestureRecognizer) {
-        if sender.state == .ended {
-            addPin(sender)
-        }
-    }
-    
-    fileprivate func addPin(_ sender: UILongPressGestureRecognizer) {
-        let location = sender.location(in: self.mapView)
-        let locationCoordinate = self.mapView.convert(location, toCoordinateFrom: self.mapView)
-        
-        let pin = Pin(context: dataController.viewContext)
-        pin.latitude = locationCoordinate.latitude
-        pin.longitude = locationCoordinate.longitude
-        try? dataController.viewContext.save()
-    }
-    
 }
 
 

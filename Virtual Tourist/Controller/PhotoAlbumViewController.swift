@@ -56,6 +56,33 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         setupCollectionViewLayout()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        print("Latitude: \(String(latitude)), Longitude: \(String(longitude))")
+        print("Latitude: \(pin.latitude)")
+        print("Longitude: \(pin.longitude)")
+        resultsLabel.isHidden = true
+        loadMapViewLocation()
+        
+        setUpFetchedResultsController()
+        if fetchedResultsController.fetchedObjects!.isEmpty {
+            updateButton(false)
+            FlickrClient.searchPhotos(latitude: latitude, longitude: longitude, page: 1, completion: handleSearchPhotosResponse(photos:error:))
+            collectionView.reloadData()
+        }
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        fetchedResultsController = nil
+    }
+    
+    
+    // -------------------------------------------------------------------------
+    // MARK: - Methods
+    
     fileprivate func setUpFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Picture> = Picture.fetchRequest()
         let predicate = NSPredicate(format: "pin == %@", pin)
@@ -71,32 +98,6 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
             fatalError("The fetch could not be performed: \(error.localizedDescription)")
         }
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        print("Latitude: \(String(latitude)), Longitude: \(String(longitude))")
-        print("Latitude: \(pin.latitude)")
-        print("Longitude: \(pin.longitude)")
-        resultsLabel.isHidden = true
-        loadMapViewLocation()
-        
-        setUpFetchedResultsController()
-        // Try this
-        if fetchedResultsController.fetchedObjects!.isEmpty {
-            FlickrClient.searchPhotos(latitude: latitude, longitude: longitude, page: 1, completion: handleSearchPhotosResponse(photos:error:))
-            collectionView.reloadData()
-        }
-        
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        fetchedResultsController = nil
-    }
-    
-    
-    // MARK: - Methods
     
     func setupCollectionViewLayout() {
         let spacing: CGFloat = 5
@@ -122,7 +123,6 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     }
 
     func handleSearchPhotosResponse(photos: [Photo], error: Error?) {
-        updateButton(false)
         
         if error != nil || photos.isEmpty {
             print(error.debugDescription)

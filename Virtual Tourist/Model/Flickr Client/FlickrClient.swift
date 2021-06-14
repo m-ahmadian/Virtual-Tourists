@@ -20,7 +20,6 @@ class FlickrClient {
     }
     
     enum Endpoints {
-        
         static let base = "https://www.flickr.com/services/rest/"
         static let flickrPhotosSearch = "?method=flickr.photos.search"
         static let apiKeyParam = "&api_key=\(FlickrClient.apiKey)"
@@ -38,7 +37,6 @@ class FlickrClient {
             return URL(string: stringValue)!
         }
     }
-    
     
     
     class func searchPhotos(latitude: Double, longitude: Double, page: Int, completion: @escaping ([Photo], Error?) -> Void) {
@@ -59,6 +57,9 @@ class FlickrClient {
         }
     }
     
+    
+    // Delete this class func after test completion
+    /*
     class func getImage(url: URL, completion: @escaping (UIImage?, Error?) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let data = data else {
@@ -74,6 +75,8 @@ class FlickrClient {
         }
         task.resume()
     }
+    */
+    
     
     class func getImage2(url: URL, completion: @escaping (Data?, Error?) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in

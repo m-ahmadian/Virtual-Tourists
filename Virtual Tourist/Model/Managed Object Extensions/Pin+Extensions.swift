@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CoreData
 import MapKit
 
 extension Pin: MKAnnotation {

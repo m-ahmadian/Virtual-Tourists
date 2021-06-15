@@ -137,6 +137,27 @@ class TravelLocationsMapViewController: UIViewController, CLLocationManagerDeleg
         }
         self.mapView.addAnnotations(annotations)
     }
+    
+    @objc func dismissAlertView() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showTravelVC" {
+            let photoAlbumVC = segue.destination as! PhotoAlbumViewController
+            
+            photoAlbumVC.dataController = dataController
+            photoAlbumVC.pin = selectedPin
+            
+            let backButton = UIBarButtonItem(title: "OK", style: .plain, target: self, action: nil)
+            navigationItem.backBarButtonItem = backButton
+            
+            photoAlbumVC.latitude = CLLocationDegrees(String(format: "%f", (selectedPinView.annotation?.coordinate.latitude)!))
+            photoAlbumVC.longitude = CLLocationDegrees(String(format: "%f", (selectedPinView.annotation?.coordinate.longitude)!))
+            photoAlbumVC.zoomLevel = self.zoomLevel
+            photoAlbumVC.currentRegion = self.currentRegion
+        }
+    }
 }
 
 
@@ -190,27 +211,6 @@ extension TravelLocationsMapViewController {
         present(alert, animated: true) {
             alert.view.superview?.isUserInteractionEnabled = true
             alert.view.superview?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.dismissAlertView)))
-        }
-    }
-    
-    @objc func dismissAlertView() {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showTravelVC" {
-            let photoAlbumVC = segue.destination as! PhotoAlbumViewController
-            
-            photoAlbumVC.dataController = dataController
-            photoAlbumVC.pin = selectedPin
-            
-            let backButton = UIBarButtonItem(title: "OK", style: .plain, target: self, action: nil)
-            navigationItem.backBarButtonItem = backButton
-            
-            photoAlbumVC.latitude = CLLocationDegrees(String(format: "%f", (selectedPinView.annotation?.coordinate.latitude)!))
-            photoAlbumVC.longitude = CLLocationDegrees(String(format: "%f", (selectedPinView.annotation?.coordinate.longitude)!))
-            photoAlbumVC.zoomLevel = self.zoomLevel
-            photoAlbumVC.currentRegion = self.currentRegion
         }
     }
     
